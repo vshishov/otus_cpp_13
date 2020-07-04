@@ -8,7 +8,6 @@ endif()
 
 project(join_server VERSION ${VERSION})
 
-find_package( Boost COMPONENTS system REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
@@ -40,7 +39,6 @@ target_include_directories(${EXEC_NAME}
 )
 
 target_link_libraries(${LIB_NAME}
-  ${Boost_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
@@ -60,7 +58,6 @@ message(${GTEST_SRCDIR})
     PRIVATE
     gtest
     ${CMAKE_THREAD_LIBS_INIT}
-    ${Boost_LIBRARIES}
     ${LIB_NAME}
   )
 
