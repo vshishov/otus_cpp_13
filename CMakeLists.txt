@@ -8,6 +8,7 @@ endif()
 
 project(join_server VERSION ${VERSION})
 
+find_package( Boost COMPONENTS system REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 
 find_package(Threads)
@@ -28,6 +29,8 @@ add_executable(${EXEC_NAME}
 
 add_library(${LIB_NAME} 
   ${SRC_PATH}/join_server.cpp
+  ${SRC_PATH}/server.cpp
+  ${SRC_PATH}/session.cpp
 )
 
 set_target_properties(${EXEC_NAME} ${LIB_NAME}  PROPERTIES
@@ -40,6 +43,7 @@ target_include_directories(${EXEC_NAME}
 
 target_link_libraries(${LIB_NAME}
   ${CMAKE_THREAD_LIBS_INIT}
+  ${Boost_LIBRARIES}
 )
 
 target_link_libraries(${EXEC_NAME} PRIVATE
