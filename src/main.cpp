@@ -1,4 +1,8 @@
+#include "server.h"
+
 #include <iostream>
+
+using boost::asio::ip::tcp;
 
 class InvalidInteger : public std::logic_error
 {
@@ -42,6 +46,20 @@ int main(int argc, char** argv)
   try {
     int nPort = GetIntFromArgv(argv[1]);
     std::cout << nPort << std::endl;
+    boost::asio::io_service ioService;
+    tcp::endpoint endpoint(tcp::v4(), nPort);
+    boost::asio::signal_set signals(ioService, SIGINT, SIGTERM);
+    otus::Server server(ioService, endpoint);
+    signals.async_wait(
+      [&ioService](const boost::system::error_code& error, int /*signal_number*/)
+      {
+        if (!error) {
+          ioService.stop();
+        }
+      }
+    );
+    
+    ioService.run();
   }
   catch(const InvalidInteger& ex) {
     std::cerr << "Port is invalid" << std::endl;
@@ -50,6 +68,8 @@ int main(int argc, char** argv)
   catch(const std::exception& ex) {
     std::cerr << ex.what() << std::endl;
   }
+
+
 
   return 0;
 }
