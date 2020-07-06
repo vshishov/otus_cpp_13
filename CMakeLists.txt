@@ -11,6 +11,9 @@ project(join_server VERSION ${VERSION})
 find_package( Boost COMPONENTS system REQUIRED )
 include_directories( ${Boost_INCLUDE_DIR} )
 
+find_package (sqlite3)
+include_directories(${SQLITE3_INCLUDE_DIRS})
+
 find_package(Threads)
 find_package(Doxygen COMPONENTS dot)
 
@@ -31,6 +34,7 @@ add_library(${LIB_NAME}
   ${SRC_PATH}/join_server.cpp
   ${SRC_PATH}/server.cpp
   ${SRC_PATH}/session.cpp
+  ${SRC_PATH}/dbutil.cpp
 )
 
 set_target_properties(${EXEC_NAME} ${LIB_NAME}  PROPERTIES
@@ -44,6 +48,7 @@ target_include_directories(${EXEC_NAME}
 target_link_libraries(${LIB_NAME}
   ${CMAKE_THREAD_LIBS_INIT}
   ${Boost_LIBRARIES}
+  ${SQLITE3_LIBRARIES}
 )
 
 target_link_libraries(${EXEC_NAME} PRIVATE
