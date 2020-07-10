@@ -29,10 +29,17 @@ void Session::DoRead()
       }
       
       if (!ec) {
+        Deliver();
+        
         DoRead();
       }
     }
   );
+}
+
+void Session::Deliver()
+{
+
 }
 
 void Session::Proccess()

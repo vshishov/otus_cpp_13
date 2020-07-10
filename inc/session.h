@@ -17,6 +17,7 @@ public:
 
 private:
   void DoRead();
+  void Deliver();
   void Proccess();
   void Close();
 
