@@ -17,6 +17,7 @@ public:
 
 private:
   void DoRead();
+  void DoWrite(std::size_t a_szLength);
   void Deliver();
   void Proccess();
   void Close();
