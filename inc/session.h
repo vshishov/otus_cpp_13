@@ -25,7 +25,7 @@ private:
 private:
   tcp::socket m_Socket;
 
-  char m_buffer[1];
+  boost::asio::streambuf m_Buffer;
   std::stringstream m_ssInputStream;
 };
 

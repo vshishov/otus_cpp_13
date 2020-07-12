@@ -16,11 +16,10 @@ void Session::Start()
 void Session::DoRead()
 {
   auto self(shared_from_this());
-  boost::asio::async_read(m_Socket,
-    boost::asio::buffer(m_buffer),
+  boost::asio::async_read_until(m_Socket, m_Buffer, '\n',
     [this, self](boost::system::error_code ec, std::size_t length)
     {
-      m_ssInputStream.write(m_buffer, length);
+      // m_ssInputStream.write(m_Buffer, length);
       if (ec == boost::asio::error::eof || ec == boost::asio::error::connection_reset) {
         Close();
       } 
@@ -43,10 +42,10 @@ void Session::Deliver()
 
 }
 
-void Session::DoWrite(std::size_t a_szLength)
+void Session::DoWrite(std::size_t /*a_szLength*/)
 {
   auto self(shared_from_this());
-  boost::asio::async_write(m_Socket, boost::asio::buffer(m_buffer, a_szLength),
+  boost::asio::async_write(m_Socket, m_Buffer,
     [this, self](boost::system::error_code ec, std::size_t /*length*/)
     {
       if (!ec) {
