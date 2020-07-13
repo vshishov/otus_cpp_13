@@ -31,7 +31,6 @@ add_library(${LIB_NAME}
   ${SRC_PATH}/join_server.cpp
   ${SRC_PATH}/server.cpp
   ${SRC_PATH}/session.cpp
-  ${SRC_PATH}/table.cpp
 )
 
 set_target_properties(${EXEC_NAME} ${LIB_NAME}  PROPERTIES
