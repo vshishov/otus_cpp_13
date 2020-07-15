@@ -3,6 +3,10 @@
 #include <iostream>
 #include <memory>
 #include <boost/asio.hpp>
+#include <thread>
+#include <string>
+#include <deque>
+#include <atomic>
 
 namespace otus {
 
@@ -14,19 +18,23 @@ public:
   Session(tcp::socket a_Socket);
   
   void Start();
+  
 
 private:
   void DoRead();
-  void DoWrite(std::size_t a_szLength);
   void Deliver();
-  void Proccess();
+  void DoWrite();
+  void ProcessWrite();
   void Close();
+  void Stop();
 
 private:
   tcp::socket m_Socket;
-
   boost::asio::streambuf m_Buffer;
-  std::stringstream m_ssInputStream;
+
+  std::deque<std::string> m_WriteMsgs;
+  std::thread m_WriteThread;
+  std::atomic<bool> m_Done{false};
 };
 
 } // otus::
